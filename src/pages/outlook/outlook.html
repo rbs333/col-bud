@@ -17,8 +17,22 @@
     placeholder="$ value"
     [(ngModel)]="interest_paid"
   ></ion-input>
+  <ion-label color="primary" stacked>Payment per Interest Period</ion-label>
+  <ion-input 
+    type="number"
+    placeholder="$ value"
+    [(ngModel)]="payment"
+  ></ion-input>
   <button ion-button (click)="showChart()">See Payment Breakdown</button>
   <ion-card [hidden]="!activeChart">
+    <b>Your Interest Payment is {{percentInterest}}% of your Principal</b>
+    <br>
+    <div *ngIf="this.numPeriods !== -1">
+      <b>It will take {{numPeriods}} to pay off your loan</b>
+    </div>
+    <div *ngIf="this.numPeriods === -1">
+        <b>At this rate your loan will never be paid off</b>
+    </div>
     <ion-card-header>
       Doughnut Chart
     </ion-card-header>
