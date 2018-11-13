@@ -13,6 +13,9 @@ export class OutlookPage {
   principle: number;
   interest_paid: number;
   total: number;
+  percentInterest: number;
+  payment: number;
+  numPeriods: number = 0;
 
   doughnutChart: any;
   activeChart = false;
@@ -25,6 +28,20 @@ export class OutlookPage {
     this.activeChart = true;
     var ip = this.interest_paid;
     var p = this.principle;
+    var percent = (1.0*this.interest_paid)/(this.principle) * 100;
+    this.percentInterest = Math.round(percent*100)/100;
+    var usualPayment = this.payment;
+    var moneyLeft = this.principle;
+    while(moneyLeft > 0) {
+        moneyLeft = (moneyLeft *(1+this.percentInterest/100)) - usualPayment;
+        if(moneyLeft >= this.principle) {
+            this.numPeriods = -1;
+            break;
+        }
+        else {
+            this.numPeriods ++;
+        }
+    }
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
  
       type: 'doughnut',
