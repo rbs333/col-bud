@@ -40,6 +40,7 @@ export class OutlookPage {
             moneyLeft = (moneyLeft *(1+interestMonthly/100)) - monthlyPaymentCollege;
             collegePeriods -= 1;
             console.log("In College");
+            console.log(collegePeriods);
             console.log(moneyLeft);
             console.log(this.totalInterestPaid);
         }
@@ -49,21 +50,21 @@ export class OutlookPage {
             console.log("Out of College");
             console.log(moneyLeft);
             console.log(this.totalInterestPaid);
+            
+            if(moneyLeft >= loan.principle) {
+                this.numPeriods = -1;
+                break;
+            }
         }
-        if(moneyLeft >= loan.principle) {
-            this.numPeriods = -1;
-            break;
-        }
-        else {
-            this.numPeriods ++;
-        }
+        
+        this.numPeriods ++;
     }
   }
 
   showChart() {
     this.NPER(this.loan);
-    this.totalNumPeriods = this.numPeriods / 12;
-    this.total = +this.loan.principle + +this.totalInterestPaid;
+    this.totalNumPeriods = Math.round(this.numPeriods / 12);
+    this.total = Math.round(+this.loan.principle + +this.totalInterestPaid);
     this.activeChart = true;
     var ip = this.totalInterestPaid;
     var p = this.loan.principle;
