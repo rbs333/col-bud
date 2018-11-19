@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Chart } from 'chart.js'
+import { Chart } from 'chart.js';
+import 'node-finance';
+import { Loan } from './loan';
 
 @Component({
   selector: 'page-outlook',
@@ -8,33 +10,47 @@ import { Chart } from 'chart.js'
 })
 export class OutlookPage {
 
-  @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild('pieCanvas') pieCanvas;
 
-  principle: number;
-  interest_paid: number;
+  loan = new Loan();
   total: number;
+  totalInterestPaid: number = 0;
+  collegeYears: number;
   percentInterest: number;
-  payment: number;
+  paymentCollege: number;
+  paymentPostCollege: number;
   numPeriods: number = 0;
+  totalNumPeriods: number;
 
   doughnutChart: any;
   activeChart = false;
 
   constructor(public navCtrl: NavController) {
-
   }
 
-  showChart() {
-    this.activeChart = true;
-    var ip = this.interest_paid;
-    var p = this.principle;
-    var percent = (1.0*this.interest_paid)/(this.principle) * 100;
-    this.percentInterest = Math.round(percent*100)/100;
-    var usualPayment = this.payment;
-    var moneyLeft = this.principle;
+  NPER(loan) {
+    var interestMonthly = loan.interestRate / 12;
+    var moneyLeft = loan.principle;
+    var monthlyPaymentCollege = this.paymentCollege;
+    var monthlyPaymentPostCollege = this.paymentPostCollege;
+    var collegePeriods = this.collegeYears*12;
     while(moneyLeft > 0) {
-        moneyLeft = (moneyLeft *(1+this.percentInterest/100)) - usualPayment;
-        if(moneyLeft >= this.principle) {
+        if(collegePeriods > 0){
+            this.totalInterestPaid += moneyLeft*(interestMonthly/100);
+            moneyLeft = (moneyLeft *(1+interestMonthly/100)) - monthlyPaymentCollege;
+            collegePeriods -= 1;
+            console.log("In College");
+            console.log(moneyLeft);
+            console.log(this.totalInterestPaid);
+        }
+        if(collegePeriods == 0){
+            this.totalInterestPaid += moneyLeft*(interestMonthly/100);
+            moneyLeft = (moneyLeft *(1+interestMonthly/100)) - monthlyPaymentPostCollege;
+            console.log("Out of College");
+            console.log(moneyLeft);
+            console.log(this.totalInterestPaid);
+        }
+        if(moneyLeft >= loan.principle) {
             this.numPeriods = -1;
             break;
         }
@@ -42,9 +58,19 @@ export class OutlookPage {
             this.numPeriods ++;
         }
     }
-    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+  }
+
+  showChart() {
+    this.NPER(this.loan);
+    this.totalNumPeriods = this.numPeriods / 12;
+    this.total = +this.loan.principle + +this.totalInterestPaid;
+    this.activeChart = true;
+    var ip = this.totalInterestPaid;
+    var p = this.loan.principle;
+    
+    this.doughnutChart = new Chart(this.pieCanvas.nativeElement, {
  
-      type: 'doughnut',
+      type: 'pie',
       data: {
           labels: ["Interest", "Principle"],
           datasets: [{

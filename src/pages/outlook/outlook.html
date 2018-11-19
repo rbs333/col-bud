@@ -5,30 +5,47 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-label color="primary" stacked>Principle</ion-label>
+  <h1>Loan info</h1>
+  <ion-label color="primary" stacked>Loan Amount</ion-label>
   <ion-input 
     type="number" 
     placeholder="$ value"
-    [(ngModel)]="principle"
+    [(ngModel)]="loan.principle"
   ></ion-input>
-  <ion-label color="primary" stacked>Interest Paid</ion-label>
+  <ion-label color="primary" stacked>Interest Rate</ion-label>
   <ion-input 
-    type="number"
-    placeholder="$ value"
-    [(ngModel)]="interest_paid"
+    type="number" 
+    placeholder="% value"
+    [(ngModel)]="loan.interestRate"
   ></ion-input>
-  <ion-label color="primary" stacked>Payment per Interest Period</ion-label>
-  <ion-input 
-    type="number"
-    placeholder="$ value"
-    [(ngModel)]="payment"
-  ></ion-input>
+  <h2>College plan</h2>
+  <ion-item>
+    <ion-label>Monthly Payment <ion-chip color="primary">${{ paymentCollege }}</ion-chip></ion-label>
+    <ion-range min="0" max="300" step="10" snaps="true" color="primary" pin="true" [(ngModel)]="paymentCollege">
+      <ion-label range-left>$0</ion-label>
+      <ion-label range-right>$300</ion-label>
+    </ion-range>
+  </ion-item>
+  <ion-item>
+      <ion-label>Years left in college <ion-chip color="primary">{{ collegeYears }}</ion-chip></ion-label>
+      <ion-range min="0" max="4" step="1" snaps="true" color="primary" [(ngModel)]="collegeYears">
+        <ion-label range-left>0</ion-label>
+        <ion-label range-right>4 years</ion-label>
+      </ion-range>
+  </ion-item>
+  <h2>After college plan</h2>
+  <ion-item>
+      <ion-label>Monthly Payment <ion-chip color="primary">${{ paymentPostCollege }}</ion-chip></ion-label>
+      <ion-range min="0" max="700" step="25" snaps="true" color="primary" pin="true" [(ngModel)]="paymentPostCollege">
+        <ion-label range-left>$0</ion-label>
+        <ion-label range-right>$700</ion-label>
+      </ion-range>
+  </ion-item>
   <button ion-button (click)="showChart()">See Payment Breakdown</button>
   <ion-card [hidden]="!activeChart">
-    <b>Your Interest Payment is {{percentInterest}}% of your Principal</b>
-    <br>
     <div *ngIf="this.numPeriods !== -1">
-      <b>It will take {{numPeriods}} to pay off your loan</b>
+      <b>It will take {{ totalNumPeriods }} years to pay off your loan</b>
+      <b>Overal your ${{ loan.principle }} loan will cost you ${{ total }}</b>
     </div>
     <div *ngIf="this.numPeriods === -1">
         <b>At this rate your loan will never be paid off</b>
@@ -37,7 +54,7 @@
       Debt Breakdown
     </ion-card-header>
     <ion-card-content>
-      <canvas #doughnutCanvas></canvas>
+      <canvas #pieCanvas></canvas>
     </ion-card-content>
   </ion-card>
 </ion-content>
