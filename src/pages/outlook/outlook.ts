@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Chart } from 'chart.js';
 import 'node-finance';
 import { Loan } from './loan';
+import { removeDebugNodeFromIndex } from '@angular/core/src/debug/debug_node';
 
 @Component({
   selector: 'page-outlook',
@@ -11,6 +12,7 @@ import { Loan } from './loan';
 export class OutlookPage {
 
   @ViewChild('pieCanvas') pieCanvas;
+  @ViewChild('debtCanvas') debtCanvas;
 
   loan = new Loan();
   total: number;
@@ -23,6 +25,7 @@ export class OutlookPage {
   totalNumPeriods: number;
 
   doughnutChart: any;
+  debtChart: any;
   activeChart = false;
 
   constructor(public navCtrl: NavController) {
@@ -88,7 +91,21 @@ export class OutlookPage {
           }]
       }
 
-  });
+    });
+
+    this.debtChart = new Chart(this.debtCanvas.nativeElement, {
+ 
+        type: 'line',
+        data: {
+            labels: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Current Plan',
+                borderColor: "red",
+                data: [-5000, -4900, -4500, -4550, -3000, -2500, -1500, 0],
+            }]
+        }
+  
+    });
   }
 
 }
