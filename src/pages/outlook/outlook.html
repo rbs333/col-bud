@@ -41,21 +41,19 @@
         <ion-label range-right>$700</ion-label>
       </ion-range>
   </ion-item>
-  <button ion-button (click)="showChart()">See Payment Breakdown</button>
-  <ion-card [hidden]="!activeChart">
-    <div *ngIf="this.numPeriods !== -1">
-      <b>It will take {{ totalNumPeriods }} years to pay off your loan</b><br>
-      <b>Overal your ${{ loan.principle }} loan will cost you ${{ total }}</b>
+  <button ion-button (click)="showChart()">See Outlook</button>
+  <div [hidden]="!activeChart">
+    <div *ngIf="this.numPeriods < 1000">
+      <h2 class="space-above">Outlook</h2>
+      <div class="indent large-text">Years until paid: {{ totalNumPeriods }}</div>
+      <div class="indent large-text">Total amount paid: ${{ total }}</div>
+      <div class="indent large-text">Total interest: ${{ totalInterestPaid }}</div>
     </div>
-    <div *ngIf="this.numPeriods === -1">
+    <div *ngIf="this.numPeriods > 1000">
         <b>At this rate your loan will never be paid off</b>
     </div>
-    <ion-card-header>
-      Debt Breakdown
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #pieCanvas></canvas>
-      <canvas #debtCanvas></canvas>
-    </ion-card-content>
-  </ion-card>
+    <canvas #pieCanvas></canvas>
+    <h3>Payment Tradjectory</h3>
+    <canvas #debtCanvas></canvas>
+  </div>
 </ion-content>

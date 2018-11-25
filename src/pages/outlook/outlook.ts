@@ -3,7 +3,6 @@ import { NavController } from 'ionic-angular';
 import { Chart } from 'chart.js';
 import 'node-finance';
 import { Loan } from './loan';
-import { removeDebugNodeFromIndex } from '@angular/core/src/debug/debug_node';
 
 @Component({
   selector: 'page-outlook',
@@ -22,10 +21,10 @@ export class OutlookPage {
   paymentCollege: number;
   paymentPostCollege: number;
   numPeriods: number = 0;
-  totalNumPeriods: number;
-
-  doughnutChart: any;
+  totalNumPeriods: number; 
+  pieChart: any; 
   debtChart: any;
+  debtHistory: number[];
   activeChart = false;
 
   constructor(public navCtrl: NavController) {
@@ -37,56 +36,71 @@ export class OutlookPage {
     var monthlyPaymentCollege = this.paymentCollege;
     var monthlyPaymentPostCollege = this.paymentPostCollege;
     var collegePeriods = this.collegeYears*12;
+    var debtHistory = [];
     while(moneyLeft > 0) {
         if(collegePeriods > 0){
             this.totalInterestPaid += moneyLeft*(interestMonthly/100);
             moneyLeft = (moneyLeft *(1+interestMonthly/100)) - monthlyPaymentCollege;
-            collegePeriods -= 1;
-            console.log("In College");
-            console.log(collegePeriods);
             console.log(moneyLeft);
-            console.log(this.totalInterestPaid);
-        }
-        if(collegePeriods == 0){
+            console.log(collegePeriods)
+            collegePeriods -= 1;
+            if (this.numPeriods % 12 === 0){
+                debtHistory.push(-moneyLeft)
+            }
+
+        } else {
+            console.log("Out of College")
+            console.log(monthlyPaymentPostCollege)
             this.totalInterestPaid += moneyLeft*(interestMonthly/100);
             moneyLeft = (moneyLeft *(1+interestMonthly/100)) - monthlyPaymentPostCollege;
-            console.log("Out of College");
-            console.log(moneyLeft);
-            console.log(this.totalInterestPaid);
-            
-            if(moneyLeft >= loan.principle) {
-                this.numPeriods = -1;
-                break;
+            if (this.numPeriods % 12 === 0){
+                console.log("Added"); 
+                debtHistory.push(-moneyLeft)
             }
-        }
+        } 
         
+        this.debtHistory = debtHistory;
         this.numPeriods ++;
+    }
+
+    if (moneyLeft <= 0){
+        debtHistory.push(-moneyLeft);
     }
   }
 
   showChart() {
     this.NPER(this.loan);
-    this.totalNumPeriods = Math.round(this.numPeriods / 12);
+    this.totalNumPeriods = Math.round(this.numPeriods / 12); 
+    var i;
+    var today = new Date(); 
+    var todayYear = today.getFullYear();
+    var yearsArray = []
+    for (i = 0; i <= (this.numPeriods / 12); i++ ){
+        yearsArray.push(todayYear + i);
+        console.log(yearsArray); 
+    }
     this.total = Math.round(+this.loan.principle + +this.totalInterestPaid);
     this.activeChart = true;
+    this.totalInterestPaid = Math.round(this.totalInterestPaid)
     var ip = this.totalInterestPaid;
     var p = this.loan.principle;
-    
-    this.doughnutChart = new Chart(this.pieCanvas.nativeElement, {
+    console.log(this.debtHistory);
+
+    this.pieChart = new Chart(this.pieCanvas.nativeElement, {
  
       type: 'pie',
-      data: {
+      data: { 
           labels: ["Interest", "Principle"],
           datasets: [{
               label: 'Debt Repayment Breakdown',
               data: [ip, p],
               backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
+                  'red',
+                  'blue',
               ],
               hoverBackgroundColor: [
-                  "#FF6384",
-                  "#36A2EB",
+                  "darkred",
+                  "darkblue",
               ]
           }]
       }
@@ -97,11 +111,11 @@ export class OutlookPage {
  
         type: 'line',
         data: {
-            labels: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            labels: yearsArray, 
             datasets: [{
                 label: 'Current Plan',
-                borderColor: "red",
-                data: [-5000, -4900, -4500, -4550, -3000, -2500, -1500, 0],
+                borderColor: 'red',
+                data: this.debtHistory, 
             }]
         }
   
