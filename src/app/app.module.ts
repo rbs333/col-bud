@@ -10,6 +10,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Level_1Page } from '../pages/level-1/level-1';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     PlanPage,
     LearnPage,
     OutlookPage,
-    TabsPage
+    TabsPage,
+    Level_1Page
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     PlanPage,
     LearnPage,
     OutlookPage,
-    TabsPage
+    TabsPage,
+    Level_1Page
   ],
   providers: [
     StatusBar,
