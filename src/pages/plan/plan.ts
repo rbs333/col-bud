@@ -11,4 +11,7 @@ export class PlanPage {
 
   }
 
+  levelOne() {
+    this.navCtrl.push(Level_1Page)
+  }
 }

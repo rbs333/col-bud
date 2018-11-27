@@ -14,6 +14,8 @@ export class OutlookPage {
   @ViewChild('debtCanvas') debtCanvas;
 
   loan = new Loan();
+
+  moreInfo = false;
   total: number;
   totalInterestPaid: number = 0;
   collegeYears: number;
@@ -41,20 +43,15 @@ export class OutlookPage {
         if(collegePeriods > 0){
             this.totalInterestPaid += moneyLeft*(interestMonthly/100);
             moneyLeft = (moneyLeft *(1+interestMonthly/100)) - monthlyPaymentCollege;
-            console.log(moneyLeft);
-            console.log(collegePeriods)
             collegePeriods -= 1;
             if (this.numPeriods % 12 === 0){
                 debtHistory.push(-moneyLeft)
             }
 
         } else {
-            console.log("Out of College")
-            console.log(monthlyPaymentPostCollege)
             this.totalInterestPaid += moneyLeft*(interestMonthly/100);
             moneyLeft = (moneyLeft *(1+interestMonthly/100)) - monthlyPaymentPostCollege;
             if (this.numPeriods % 12 === 0){
-                console.log("Added"); 
                 debtHistory.push(-moneyLeft)
             }
         } 
@@ -77,14 +74,12 @@ export class OutlookPage {
     var yearsArray = []
     for (i = 0; i <= (this.numPeriods / 12); i++ ){
         yearsArray.push(todayYear + i);
-        console.log(yearsArray); 
     }
     this.total = Math.round(+this.loan.principle + +this.totalInterestPaid);
     this.activeChart = true;
     this.totalInterestPaid = Math.round(this.totalInterestPaid)
     var ip = this.totalInterestPaid;
     var p = this.loan.principle;
-    console.log(this.debtHistory);
 
     this.pieChart = new Chart(this.pieCanvas.nativeElement, {
  
@@ -96,7 +91,7 @@ export class OutlookPage {
               data: [ip, p],
               backgroundColor: [
                   'red',
-                  'blue',
+                  'grey',
               ],
               hoverBackgroundColor: [
                   "darkred",
@@ -116,10 +111,18 @@ export class OutlookPage {
                 label: 'Current Plan',
                 borderColor: 'red',
                 data: this.debtHistory, 
-            }]
+            },
+        ]
         }
   
     });
   }
 
+  toggleMoreInfo() {
+      this.moreInfo = !this.moreInfo
+  }
+
+  closeChart() {
+      this.activeChart = false;
+  }
 }
