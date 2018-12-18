@@ -1,0 +1,16 @@
+<h1>
+  <span (click)="toggleMoreInfo()">Loan Info</span> 
+  <a *ngIf="moreInfo" style="font-size: .5em; text-decoration: underline">more info</a>
+</h1>
+<ion-label color="primary" stacked>Loan Amount</ion-label>
+<ion-input 
+  type="number" 
+  placeholder="$ value"
+  [(ngModel)]="loan.principle"
+></ion-input>
+<ion-label color="primary" stacked>Interest Rate</ion-label>
+<ion-input 
+  type="number" 
+  placeholder="% value"
+  [(ngModel)]="loan.interestRate"
+></ion-input>

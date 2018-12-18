@@ -14,6 +14,8 @@ export class OutlookPage {
   
 
   loan = new Loan();
+  loadProgress: number = 0;
+  state: number = 0;
 
   moreInfo = false;
   total: number;
@@ -125,5 +127,16 @@ export class OutlookPage {
 
   closeChart() {
       this.activeChart = false;
+  }
+
+  nextStep() {
+      console.log("Next Step")
+      this.loadProgress += 50;
+      if(this.state == 1) {
+          this.showChart()
+      }
+      if(this.state < 3) {
+        this.state += 1;
+      }
   }
 }

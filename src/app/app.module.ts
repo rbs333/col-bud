@@ -11,6 +11,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Level_1Page } from '../pages/level-1/level-1';
+import { HomePage } from '../pages/home/home';
+import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { Level_1Page } from '../pages/level-1/level-1';
     LearnPage,
     OutlookPage,
     TabsPage,
-    Level_1Page
+    Level_1Page,
+    HomePage,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,8 @@ import { Level_1Page } from '../pages/level-1/level-1';
     LearnPage,
     OutlookPage,
     TabsPage,
-    Level_1Page
+    Level_1Page,
+    HomePage
   ],
   providers: [
     StatusBar,
