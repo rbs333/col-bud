@@ -1,0 +1,6 @@
+<ion-input 
+  [(ngModel)] = "param" 
+  placeholder="enter param"
+></ion-input>
+<button ion-button (click)="emit()">Emit</button>
+<h2>Child Param: {{ param }}</h2>

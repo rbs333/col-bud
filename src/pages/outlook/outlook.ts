@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { ModalController, NavController } from 'ionic-angular';
 import { Chart } from 'chart.js';
 import { Loan } from './loan';
+import { FindingLoanInfoPage } from '../finding-loan-info/finding-loan-info';
 
 @Component({
   selector: 'page-outlook',
@@ -31,7 +32,10 @@ export class OutlookPage {
   debtHistory: number[];
   activeChart = false;
 
-  constructor(public navCtrl: NavController) {
+  constructor(
+      public navCtrl: NavController,
+      public modalCtrl: ModalController
+    ) {
   }
 
   NPER(loan) {
@@ -138,5 +142,9 @@ export class OutlookPage {
       if(this.state < 3) {
         this.state += 1;
       }
+  }
+
+  moreLoanInfo() {
+    this.navCtrl.push(FindingLoanInfoPage);
   }
 }

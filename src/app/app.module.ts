@@ -13,6 +13,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Level_1Page } from '../pages/level-1/level-1';
 import { HomePage } from '../pages/home/home';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
+import { FindingLoanInfoPage } from '../pages/finding-loan-info/finding-loan-info';
+import { SlidersComponent } from '../components/sliders/sliders';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     TabsPage,
     Level_1Page,
     HomePage,
-    ProgressBarComponent
+    ProgressBarComponent,
+    FindingLoanInfoPage,
+    SlidersComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +41,9 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     OutlookPage,
     TabsPage,
     Level_1Page,
-    HomePage
+    HomePage,
+    FindingLoanInfoPage,
+    // SlidersComponent
   ],
   providers: [
     StatusBar,

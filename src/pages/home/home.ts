@@ -9,6 +9,8 @@ import { OutlookPage } from '../outlook/outlook';
 })
 export class HomePage {
 
+  parentParam: string;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -18,6 +20,12 @@ export class HomePage {
 
   nextPage() {
     this.navCtrl.push(OutlookPage)
+  }
+
+  onParamEmitted(param: string) {
+    this.parentParam = param;
+    console.log("Event Emitted");
+    console.log(this.parentParam);
   }
 
 }

@@ -7,15 +7,15 @@
 <ion-content padding>
 
   <div *ngIf="state == 0">
-    <h1>Enter basic loan information</h1>
+    <h1>1 - Enter basic loan information</h1>
     <p>
       Often the hardest part of calculating your debt future is knowing where the information
       regarding your loan is kept. If you don't know your basic loan information
-      <a>see here</a>
+      <a (click)="moreLoanInfo()">see here</a><br><br>
+      If you already know your loan information, enter below and hit next.
     </p>
     <ion-label color="primary" stacked>Loan Amount</ion-label>
     <ion-input 
-      class="currency" 
       type="number" 
       placeholder="$ value"
       [(ngModel)]="loan.principle"
@@ -29,7 +29,16 @@
   </div>
   
   <div *ngIf="state == 1">
+    <h1>2 - Quick Plan</h1>
+    <p>
+      If you are using this app, it means you have student loans which means you have to pay them off.
+      And, we're guessing that you're guessing that you'll make more money (to be put towards your debt)
+      after college than when you're in college. To account for this, use the sliders below to put forward
+      your best guess on how much you can put towards your debt before and after college. If you have no 
+      clue of what you will be able to pay after college <a>see here</a>
+    </p>
     <h2>College plan</h2>
+    <p></p>
     <ion-item>
       <ion-label>Monthly Payment <ion-chip *ngIf="paymentCollege" color="primary">${{ paymentCollege }}</ion-chip></ion-label>
       <ion-range min="0" max="300" step="10" snaps="true" color="primary" pin="true" [(ngModel)]="paymentCollege">
@@ -57,7 +66,7 @@
 
   <div [hidden]="!activeChart">
       <div *ngIf="this.numPeriods < 1000">
-        <h2 class="space-above">Outlook</h2>
+        <h2 class="space-above">3 - Outlook | Plan Comparison</h2>
         <div class="indent large-text">Years until paid: {{ totalNumPeriods }}</div>
         <div class="indent large-text">Total amount paid: ${{ total }}</div>
         <div class="indent large-text">Total interest: ${{ totalInterestPaid }}</div>
@@ -68,6 +77,9 @@
       <canvas #pieCanvas></canvas>
       <h3>Payment Tradjectory</h3>
       <canvas #debtCanvas></canvas>
+
+      <button ion-button>Compare Alternative</button>
+      <button ion-button>How realistic is this outlook?</button>
   </div>
 
   <!-- <button ion-button (click)="showChart()">
@@ -78,6 +90,7 @@
   <button ion-button *ngIf="activeChart" color="danger" (click)="closeChart()">Close</button>
 
   <button ion-button color="secondary" (click)="nextStep()">Next</button>
+
   <h1>Progress</h1>
   <progress-bar [progress]="loadProgress"></progress-bar>
   
