@@ -147,4 +147,19 @@ export class OutlookPage {
   moreLoanInfo() {
     this.navCtrl.push(FindingLoanInfoPage);
   }
+
+  _paymentCollege(event: number){
+    this.paymentCollege = event;
+    console.log(this.paymentCollege);
+  }
+
+  _paymentPostCollege(event: number){
+    this.paymentPostCollege = event;
+    console.log(this.paymentPostCollege);
+  }
+
+  yearsLeftInCollege(event: number){
+    this.collegeYears = event;
+    console.log(this.collegeYears);
+  }
 }
