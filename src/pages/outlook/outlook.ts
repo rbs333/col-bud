@@ -30,6 +30,7 @@ export class OutlookPage {
   pieChart: any; 
   debtChart: any;
   debtHistory: number[];
+  alternativeHistory: number[];
   activeChart = false;
 
   constructor(
@@ -75,7 +76,6 @@ export class OutlookPage {
   }
 
   showChart() {
-    
     this.NPER(this.loan);
     this.totalNumPeriods = Math.round(this.numPeriods / 12); 
     var i;
@@ -114,11 +114,17 @@ export class OutlookPage {
         type: 'line',
         data: {
             labels: yearsArray, 
-            datasets: [{
-                label: 'Current Plan',
-                borderColor: 'red',
-                data: this.debtHistory, 
-            },
+            datasets: [
+                {
+                    label: 'Current Plan',
+                    borderColor: 'red',
+                    data: this.debtHistory, 
+                },
+                {
+                    label: 'Alternative',
+                    borderColor: 'green',
+                    data: this.alternativeHistory
+                }
         ]
         }
   
