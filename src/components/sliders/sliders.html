@@ -16,8 +16,8 @@
   </ion-range>
 </ion-item>
 <ion-item>
-    <ion-label>Years left in college <ion-chip *ngIf="collegeYears" color="primary">{{ collegeYears }}</ion-chip></ion-label>
-    <ion-range min="0" max="8" step="0.5" snaps="true" color="primary" [(ngModel)]="collegeYears">
+    <ion-label>Years left in college <ion-chip color="primary">{{ colYears }}</ion-chip></ion-label>
+    <ion-range min="0" max="8" step="1" snaps="true" color="primary" [(ngModel)]="colYears">
       <ion-label range-left>0</ion-label>
       <ion-label range-right>4 years</ion-label>
     </ion-range>
