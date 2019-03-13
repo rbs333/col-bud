@@ -3,6 +3,7 @@ import { ModalController, NavController } from 'ionic-angular';
 import { Chart } from 'chart.js';
 import { Loan } from './loan';
 import { FindingLoanInfoPage } from '../finding-loan-info/finding-loan-info';
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-outlook',
@@ -13,7 +14,6 @@ export class OutlookPage {
   @ViewChild('pieCanvas') pieCanvas;
   @ViewChild('debtCanvas') debtCanvas;
   
-
   loan = new Loan();
   loadProgress: number = 0;
   state: number = 0;
@@ -140,7 +140,6 @@ export class OutlookPage {
   }
 
   nextStep() {
-      console.log("Next Step")
       this.loadProgress += 50;
       if(this.state == 1) {
           this.showChart()
@@ -154,18 +153,19 @@ export class OutlookPage {
     this.navCtrl.push(FindingLoanInfoPage);
   }
 
-  _paymentCollege(event: number){
+  _paymentCollege(event: number) {
     this.paymentCollege = event;
-    console.log(this.paymentCollege);
   }
 
-  _paymentPostCollege(event: number){
+  _paymentPostCollege(event: number) {
     this.paymentPostCollege = event;
-    console.log(this.paymentPostCollege);
   }
 
-  yearsLeftInCollege(event: number){
+  yearsLeftInCollege(event: number) {
     this.collegeYears = event;
-    console.log(this.collegeYears);
+  }
+
+  home() {
+    this.navCtrl.push(HomePage);
   }
 }

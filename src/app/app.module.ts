@@ -16,6 +16,8 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 import { FindingLoanInfoPage } from '../pages/finding-loan-info/finding-loan-info';
 import { SlidersComponent } from '../components/sliders/sliders';
 
+import { TooltipsModule } from 'ionic-tooltips';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -31,7 +33,8 @@ import { SlidersComponent } from '../components/sliders/sliders';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    TooltipsModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

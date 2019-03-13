@@ -1,26 +1,27 @@
 <ion-header>
   <ion-navbar>
-    <ion-title style="font-family: 'Black Han Sans'">Outlook</ion-title>
+    <ion-title style="font-family: 'Black Han Sans'">toZero</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
   <div *ngIf="state == 0">
-    <h1>1 - Enter basic loan information</h1>
+    <h2>Step 1: Loan Info</h2>
     <p>
-      Often the hardest part of calculating your debt future is knowing where the information
-      regarding your loan is kept. If you don't know your basic loan information
-      <a (click)="moreLoanInfo()">see here</a><br><br>
-      If you already know your loan information, enter below and hit next.
+      The hardest part of determining your loan commitment is figuring out how much you need to borrow 
+      or how much you have borrowed. If you don't know where to find your student loan debt information
+      or don't know how to calculate how much you will need <a (click)="moreLoanInfo()">see here</a>
     </p>
-    <ion-label color="primary" stacked>Loan Amount</ion-label>
+    <ion-label stacked>
+      Loan Amount
+    </ion-label>
     <ion-input 
       type="number" 
       placeholder="$ value"
       [(ngModel)]="loan.principle"
     ></ion-input>
-    <ion-label color="primary" stacked>Interest Rate</ion-label>
+    <ion-label stacked>Interest Rate</ion-label>
     <ion-input 
       type="number" 
       placeholder="% value"
@@ -39,10 +40,12 @@
 
   <div [hidden]="!activeChart">
       <div *ngIf="this.numPeriods < 1000">
-        <h2 class="space-above">3 - Outlook | Plan Comparison</h2>
-        <div class="indent large-text">Years until paid: {{ totalNumPeriods }}</div>
-        <div class="indent large-text">Total amount paid: ${{ total }}</div>
-        <div class="indent large-text">Total interest: ${{ totalInterestPaid }}</div>
+        <h2 class="space-above">Step 3: Freak Out</h2>
+        <h3>
+          Your loan is a <b>{{ totalNumPeriods }}</b> year commitment
+          It will cost you <b>${{ total }}</b> of which <b>${{ totalInterestPaid }}</b> 
+          is accumulated interest
+        </h3>
       </div>
       <div *ngIf="this.numPeriods > 1000">
           <b>At this rate your loan will never be paid off</b>
@@ -51,20 +54,31 @@
       <h3>Payment Tradjectory</h3>
       <canvas #debtCanvas></canvas>
 
-      <button ion-button>Compare Alternative</button>
       <button ion-button>How realistic is this outlook?</button>
   </div>
 
-  <!-- <button ion-button (click)="showChart()">
-    <span *ngIf="!activeChart">See Outlook</span>
-    <span *ngIf="activeChart">Test Changes</span>
+  <!-- <button ion-button 
+    *ngIf="activeChart" 
+    color="danger" 
+    (click)="closeChart()"
+  >
+    Close
   </button> -->
 
-  <button ion-button *ngIf="activeChart" color="danger" (click)="closeChart()">Close</button>
+  <button ion-button 
+    (click)="nextStep()"
+    *ngIf="state < 2"
+  >
+    Next
+  </button>
+  <button ion-button
+    *ngIf="state >= 2"
+    (click)="home()"
+  >
+    Home
+  </button>
 
-  <button ion-button color="secondary" (click)="nextStep()">Next</button>
-
-  <h1>Progress</h1>
-  <progress-bar [progress]="loadProgress"></progress-bar>
+  <!-- <h1>Progress</h1>
+  <progress-bar [progress]="loadProgress"></progress-bar> -->
   
 </ion-content>
